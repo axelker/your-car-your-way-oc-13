@@ -1,0 +1,17 @@
+li {
+    cursor: pointer;
+}
+
+.active-link {
+    color: #6C5CCF;
+}
+
+.active-profil ng-icon:first-child {
+    stroke: #6C5CCF;
+    stroke-width: 2px;
+    border-radius: 100%;
+}
+
+.active-profil ng-icon:last-child {
+    color: #6C5CCF;
+}

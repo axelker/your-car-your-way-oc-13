@@ -1,0 +1,28 @@
+<div class="flex flex-col justify-between h-full md:h-auto md:flex-row gap-4">
+    
+    <ul class="space-y-4 text-right md:space-y-0 md:flex items-center md:gap-6">
+        <li class="text-[#A40F0F] text-sm font-bold" (click)="logout.emit()">
+            Se déconnecter
+        </li>
+        <li class="text-xl" [routerLink]="['/articles']" routerLinkActive="active-link">
+            Articles
+        </li>
+        <li class="text-xl" [routerLink]="['/themes']" routerLinkActive="active-link">
+            Thèmes
+        </li>
+    </ul>
+
+
+    <button class="text-right" [routerLink]="['/users/profil']" routerLinkActive="active-profil">
+        <div class="relative inline-block">
+            <ng-icon class="text-[#D9D9D9]" name="bootstrapCircleFill"
+                [style.width.px]="48" [style.height.px]="48">
+            </ng-icon>
+            <ng-icon class="text-[#00000080] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                [style.width.px]="28" [style.height.px]="28" 
+                name="heroUser">
+            </ng-icon>
+        </div>
+    </button>
+
+</div>

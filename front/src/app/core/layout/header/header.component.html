@@ -1,0 +1,32 @@
+<header>
+    <div class="flex justify-between items-center mb-6 border-b border-black px-5 py-3">
+        <div>
+          <img src="assets/images/logo.png" alt="Logo" class="hover:cursor-pointer w-[140px]" [routerLink]="['/']">
+        </div>
+    
+        <button class="md:hidden text-3xl" (click)="toggleMenu()">
+            ☰
+        </button>
+    
+        <div class="hidden md:block">
+            <app-nav-links (logout)="logout()"/>
+        </div>
+    </div>
+    
+    <div *ngIf="isMenuOpen" class="fixed inset-0 h-full bg-black/50 z-40 md:hidden" (click)="closeMenu()">
+    
+        <aside 
+            class="fixed top-0 right-0 w-64 h-full bg-white border-l border-black shadow-lg z-50 transition-transform duration-300"
+            [class.translate-x-full]="!isMenuOpen"
+        >
+            <button class="absolute top-3 right-3 text-2xl" (click)="closeMenu()">✕</button>
+    
+            <nav class="h-full px-5 pt-[70px]">
+                <app-nav-links (logout)="logout(); closeMenu()"/>
+            </nav>
+        </aside>
+    </div>
+</header>
+
+
+

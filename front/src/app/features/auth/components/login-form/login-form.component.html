@@ -1,0 +1,29 @@
+
+<div class="flex justify-center">
+    <form [formGroup]="formGroup" (submit)="onSubmit()" class="w-full max-w-sm">
+        <label for="identifier" class="block mb-1">
+            Adresse e-mail
+        </label>
+        <input formControlName="identifier" id="identifier" type="text"
+            class="w-full px-4 py-2 mb-4">
+        @if (identifier?.invalid && identifier?.touched) {
+            <span class="text-red-600 text-sm block">
+                {{ identifierError }}
+            </span>
+        }
+        <label for="password" class="block mb-1">
+            Mot de passe
+        </label>
+        <input formControlName="password" id="password" type="password"
+            class="w-full px-4 py-2 mb-4">
+        @if (password?.invalid && password?.touched) {
+            <span class="text-red-600 text-sm block">
+                {{ passwordError }}
+            </span>
+        }
+        <button type="submit" [disabled]="formGroup.invalid" class="main-button block mx-auto mt-4">
+            Se connecter
+        </button>
+    </form>
+</div>
+
