@@ -10,8 +10,11 @@
         <li class="text-xl" [routerLink]="['/support/visio']" routerLinkActive="active-link">
             Visio
         </li>
-        <li class="text-xl" [routerLink]="['/support/contact']" routerLinkActive="active-link">
-            Contact
-        </li>
+        @if(showContact | async) {
+            <li class="text-xl" [routerLink]="['/support/contact']" routerLinkActive="active-link">
+                Contact
+            </li>
+        }
+
     </ul>
 </div>

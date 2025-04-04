@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
-import {  Observable, switchMap, tap } from 'rxjs';
+import {  map, Observable, switchMap, tap } from 'rxjs';
 import { RegisterRequest } from '../interfaces/register-request';
 import { LoginRequest } from '../interfaces/login-request';
 import { UserInfo } from '../interfaces/user-info';
@@ -39,9 +39,12 @@ export class AuthService {
     return this.http.get<UserInfo>(`${this.basePath}/me`);
   }
 
-  public updateUserInfo(user: UserRequest): Observable<UserInfo> {
-    return this.http.put<UserInfo>(`${this.basePath}/me`, user);
+  public isClientLogged(): Observable<boolean> {
+    return this.getUserInfo().pipe(
+      map(user => user.role === 'CLIENT')
+    );
   }
+
 
   public checkAuthStatus(): void {
     this.getAuthValidation().subscribe({

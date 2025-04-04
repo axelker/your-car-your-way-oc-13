@@ -1,15 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { SessionService } from '../services/session.service';
-import { roles } from '../enums/roles.enum';
+import { AuthService } from '../services/auth.service';
+import { map } from 'rxjs';
 
 export const canActivateClient: CanActivateFn = () => {
-  const sessionService = inject(SessionService);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (sessionService.getUser() != null && sessionService.getUser()?.role == roles.CLIENT) {
-    return true;
-  }
+  return authService.isClientLogged().pipe(
+    map(value => value === true ? true : router.createUrlTree(['/']))
+  );
 
-  return router.createUrlTree(['/']);
 };

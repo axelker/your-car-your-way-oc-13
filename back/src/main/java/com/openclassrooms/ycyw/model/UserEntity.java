@@ -54,6 +54,17 @@ public class UserEntity extends Auditable implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+
+    /**
+     * The role password of the user.
+     * <p>
+     * Cannot be null.
+     * </p>
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     /**
      * Returns the authorities granted to the user.
      * <p>
@@ -64,7 +75,7 @@ public class UserEntity extends Auditable implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(role::getAuthority);
     }
 
     /**

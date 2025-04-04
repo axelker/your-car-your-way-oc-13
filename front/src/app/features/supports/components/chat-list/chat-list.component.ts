@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import { SessionService } from '../../../../core/services/session.service';
-import { roles } from '../../../../core/enums/roles.enum';
+import { Observable, EMPTY } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-chat-list',
   standalone: true,
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.scss'
 })
 export class ChatListComponent {
 
-  constructor(private sessionService: SessionService) {
-
+  showNew: Observable<boolean> = EMPTY;
+  
+  constructor(private authService:AuthService){
+      this.showNew = this.authService.isClientLogged();
   }
 
-  public showNew():boolean {
-    return !!this.sessionService.getUser() && this.sessionService.getUser()?.role == roles.CLIENT;
-  }
 }

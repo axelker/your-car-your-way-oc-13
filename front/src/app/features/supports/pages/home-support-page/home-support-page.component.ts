@@ -13,6 +13,6 @@ export class HomeSupportPageComponent {
   constructor(private sessionService: SessionService) {}
 
   get username() : string {
-    return this.sessionService.getUser()?.username ?? '';
+    return this.sessionService.getUser()?.email ?? '';
   }
 }

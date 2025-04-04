@@ -17,10 +17,6 @@ public class UserResponse {
 	 */
 	private Long id;
 	/**
-	 * The username of the user.
-	 */
-	private String username;
-	/**
 	 * The email of the user.
 	 */
 	private String email;
