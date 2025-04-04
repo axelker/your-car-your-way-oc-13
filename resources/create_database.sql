@@ -4,8 +4,8 @@ CREATE DATABASE `ycyw-oc-project-13`;
 
 USE `ycyw-oc-project-13`;
 
-DROP TABLE IF EXISTS supports_visio_logs;
-DROP TABLE IF EXISTS supports_requests;
+DROP TABLE IF EXISTS support_visio_logs;
+DROP TABLE IF EXISTS support_requests;
 DROP TABLE IF EXISTS support_messages;
 DROP TABLE IF EXISTS rentals;
 DROP TABLE IF EXISTS agencies;
@@ -111,7 +111,7 @@ CREATE TABLE support_messages (
     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE supports_requests (
+CREATE TABLE support_requests (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     subject VARCHAR(100) NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE supports_requests (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE supports_visio_logs (
+CREATE TABLE support_visio_logs (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     user_support_id BIGINT NOT NULL,
