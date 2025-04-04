@@ -1,5 +1,6 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 import { provideCore } from './core/core.providers';
@@ -10,7 +11,8 @@ import { provideIcons } from '@ng-icons/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideAnimations(),
     provideRouter(routes), 
     provideCore(),
     provideIcons({ heroArrowLeft, heroArrowDown, heroArrowUp, heroUser }),

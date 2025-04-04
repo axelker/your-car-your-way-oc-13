@@ -53,7 +53,7 @@ export class LoginFormComponent {
       const request: LoginRequest = this.formGroup.getRawValue();
       this.authService.login(request).subscribe({
         next: (_) => {
-          this.router.navigate(['/articles']);
+          this.router.navigate(['/support']);
         },
       });
   }

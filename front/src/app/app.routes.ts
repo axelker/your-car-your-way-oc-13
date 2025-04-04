@@ -12,7 +12,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'supports',
+                redirectTo: 'support',
                 pathMatch: 'full',
             },
             {

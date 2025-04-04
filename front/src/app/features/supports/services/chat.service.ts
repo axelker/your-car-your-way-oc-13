@@ -6,4 +6,13 @@ import { Injectable } from '@angular/core';
 export class ChatService {
 
   constructor() { }
+
+  public getAllChats(userId:string) {
+
+  }
+
+  public sendChat(senderId:string,receiverId:string,content:string) {
+
+  }
+ 
 }

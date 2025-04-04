@@ -28,7 +28,6 @@ export class RegisterFormComponent {
     private router: Router,
   ) {
     this.formGroup = this.fb.group({
-      username: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
@@ -40,9 +39,7 @@ export class RegisterFormComponent {
     });
   }
 
-  get username() {
-    return this.formGroup.get('username');
-  }
+
   get email() {
     return this.formGroup.get('email');
   }
@@ -50,12 +47,6 @@ export class RegisterFormComponent {
     return this.formGroup.get('password');
   }
 
-  get usernameError() {
-    return this.controlErrorService.buildErrorMessage(
-      "Nom d'utilisateur",
-      this.username
-    );
-  }
 
   get emailError() {
     return this.controlErrorService.buildErrorMessage(

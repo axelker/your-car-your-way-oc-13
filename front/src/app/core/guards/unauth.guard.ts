@@ -10,5 +10,5 @@ export const canActivateUnAuth: CanActivateFn = () => {
     return true;
   }
 
-  return router.createUrlTree(['/articles']);
+  return router.createUrlTree(['/support']);
 };
