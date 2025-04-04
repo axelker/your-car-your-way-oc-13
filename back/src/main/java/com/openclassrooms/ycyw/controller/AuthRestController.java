@@ -1,7 +1,6 @@
 package com.openclassrooms.ycyw.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +10,6 @@ import com.openclassrooms.ycyw.dto.response.ErrorResponse;
 import com.openclassrooms.ycyw.dto.response.Response;
 import com.openclassrooms.ycyw.dto.response.UserResponse;
 import com.openclassrooms.ycyw.service.auth.AuthenticationService;
-import com.openclassrooms.ycyw.service.command.UserCommandeService;
 import com.openclassrooms.ycyw.service.query.UserQueryService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,7 +45,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AuthRestController {
         private final AuthenticationService authService;
         private final UserQueryService userQueryService;
-        private final UserCommandeService userCommandService;
 
         /**
          * Constructs an instance of {@code AuthRestController}.
@@ -57,11 +54,9 @@ public class AuthRestController {
          * @param userQueryService   the service for retrieving user data.
          * @param userCommandService the service for updating user data.
          */
-        AuthRestController(AuthenticationService authService, UserQueryService userQueryService,
-                        UserCommandeService userCommandService) {
+        AuthRestController(AuthenticationService authService, UserQueryService userQueryService) {
                 this.authService = authService;
                 this.userQueryService = userQueryService;
-                this.userCommandService = userCommandService;
         }
 
         /**
