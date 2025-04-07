@@ -1,18 +1,37 @@
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
+import { RxStomp } from '@stomp/rx-stomp';
+import { rxStompConfig } from '../config/rx-stomp.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
+  private rxStomp: RxStomp;
 
-  constructor() { }
+  constructor() {
+    this.rxStomp = new RxStomp();
+    this.rxStomp.configure(rxStompConfig);
+    this.rxStomp.activate();
+  }
 
-  public getAllChats(userId:string) {
+  public sendMessage(destination: string, body: any): void {
+    this.rxStomp.publish({
+      destination,
+      body: JSON.stringify(body)
+    });
+  }
+
+  public listen(destination: string) {
+    return this.rxStomp.watch(destination).pipe(
+      map(message => JSON.parse(message.body))
+    );
+  }
+
+  //TODO: call the back get
+  public findAllMessagesByReceiverUserId(receiverId:string) {
 
   }
 
-  public sendChat(senderId:string,receiverId:string,content:string) {
-
-  }
  
 }
