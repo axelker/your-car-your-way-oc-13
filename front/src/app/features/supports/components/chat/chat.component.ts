@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
-import { AuthService } from '../../../../core/services/auth.service';
 import { UserInfo } from '../../../../core/interfaces/user-info';
 import { SessionService } from '../../../../core/services/session.service';
+import { SupportMessageRequest } from '../../interfaces/support-message-request';
+import { SupportMessage } from '../../interfaces/support-message';
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +16,7 @@ import { SessionService } from '../../../../core/services/session.service';
 })
 export class ChatComponent {
   @Input({required:true}) receiverId! : number;
-  messages: { sender: string, content: string }[] = []; //Todo: init with chat service (findAllByUserId)
+  messages: SupportMessage[] = [];
   newMessage: string = '';
   userInfo! : UserInfo;
 
@@ -24,23 +25,23 @@ export class ChatComponent {
   }
 
   ngOnInit(): void {
-    this.chatService.listen(`/topic/support/${this.userInfo.id}`).subscribe((msg: any) => {
-      console.log(msg)
+    this.chatService.listen(`/topic/support/${this.userInfo.id}`).subscribe((msg: SupportMessage) => {
       this.messages.push(msg);
     });
+    this.chatService.findAllMessagesByReceiverUserId(this.receiverId).subscribe((v) => this.messages = v);
   }
 
   send(): void {
     if (!this.newMessage.trim()) return;
 
-    const message = {
+    const message : SupportMessageRequest = {
       receiverId: this.receiverId,
       content: this.newMessage,
       senderId: this.userInfo.id
     };
 
     this.chatService.sendMessage('/app/chat.send', message);
-    this.messages.push({ sender: this.userInfo.email, content: this.newMessage });
+    this.messages.push({ username: this.userInfo.email, content: this.newMessage });
     this.newMessage = '';
   }
 }
