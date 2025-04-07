@@ -1,9 +1,11 @@
 package com.openclassrooms.ycyw.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.openclassrooms.ycyw.model.Role;
 import com.openclassrooms.ycyw.model.UserEntity;
 
 /**
@@ -23,4 +25,8 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
      * @return an {@link Optional} containing the user if found, otherwise empty.
      */
     Optional<UserEntity> findByEmail(String email);
+
+
+    List<UserEntity> findByRole(Role role);
+
 }
