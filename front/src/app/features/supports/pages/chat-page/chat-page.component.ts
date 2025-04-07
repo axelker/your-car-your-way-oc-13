@@ -16,7 +16,6 @@ export class ChatPageComponent {
 
   selectUser(user:UserInfo) {
     this.userSelectedToChat = user;
-    console.log(this.userSelectedToChat)
   }
   closeChat() {
     this.userSelectedToChat = null;
