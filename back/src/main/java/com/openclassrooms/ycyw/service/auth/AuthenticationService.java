@@ -14,6 +14,7 @@ import com.openclassrooms.ycyw.dto.request.AuthLoginRequest;
 import com.openclassrooms.ycyw.dto.request.UserRequest;
 import com.openclassrooms.ycyw.dto.response.UserResponse;
 import com.openclassrooms.ycyw.exception.UnauthorizedActionException;
+import com.openclassrooms.ycyw.model.Role;
 import com.openclassrooms.ycyw.model.UserEntity;
 import com.openclassrooms.ycyw.repository.UserRepository;
 import com.openclassrooms.ycyw.service.command.UserCommandeService;
@@ -105,17 +106,34 @@ public class AuthenticationService {
         return jwtService.generateJwtLogoutCookie();
     }
 
-    /**
-     * Return the id of Authenticated user.
+     /**
+     * Return the Authenticated user.
      * @return
      */
-    public Long getAuthenticatedUserId() {
+    private UserEntity getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof UserEntity)) {
             throw new UnauthorizedActionException("User is not authenticated.");
         }
 
-        Long userId = ((UserEntity) authentication.getPrincipal()).getId();
+        return ((UserEntity) authentication.getPrincipal());
+    }
+
+    /**
+     * Return the id of Authenticated user.
+     * @return
+     */
+    public Long getAuthenticatedUserId() {
+        Long userId = this.getAuthenticatedUser().getId();
         return userId;
+    }
+
+    /**
+     * Return the role of Authenticated user.
+     * @return
+     */
+    public Role getAuthenticatedUserRole() {
+        Role role = this.getAuthenticatedUser().getRole();
+        return role;
     }
 }

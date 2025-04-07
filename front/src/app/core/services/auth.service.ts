@@ -4,9 +4,9 @@ import {  map, Observable, switchMap, tap } from 'rxjs';
 import { RegisterRequest } from '../interfaces/register-request';
 import { LoginRequest } from '../interfaces/login-request';
 import { UserInfo } from '../interfaces/user-info';
-import { UserRequest } from '../interfaces/user-request';
 import { SessionService } from './session.service';
 import { IGNORED_STATUSES } from '../interceptors/http-error-interceptor';
+import { roles } from '../enums/roles.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,7 @@ export class AuthService {
 
   public isClientLogged(): Observable<boolean> {
     return this.getUserInfo().pipe(
-      map(user => user.role === 'CLIENT')
+      map(user => user.role === roles.CLIENT)
     );
   }
 
