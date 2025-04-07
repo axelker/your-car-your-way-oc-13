@@ -1,0 +1,31 @@
+@startuml
+skinparam componentStyle rectangle
+
+package "Client-side" {
+  [Web Client (Angular)] --> [NGINX & REVERSE PROXY]
+  [NGINX & REVERSE PROXY] --> [REST API]
+}
+
+package "Server-side (Spring Boot)" {
+  [REST API] --> [Auth Module]
+  [REST API] --> [Reservation Module]
+  [REST API] --> [Support Module]
+}
+
+package "Persistence" {
+  [Relational Database (MySQL)]
+  [Auth Module] --> [Relational Database (MySQL)]
+  [Reservation Module] --> [Relational Database (MySQL)]
+  [Support Module] --> [Relational Database (MySQL)]
+}
+
+package "External Services" {
+  [Stripe Payment Gateway]
+  [WebRTC Signaling Server]
+  [Email Notification Service]
+  [Reservation Module] --> [Stripe Payment Gateway]
+  [Support Module] --> [WebRTC Signaling Server]
+  [Auth Module] --> [Email Notification Service]
+}
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+skinparam componentStyle rectangle
+
+node "Client (Web Browser)" as client
+
+cloud "AWS Cloud" {
+
+  node "Application Load Balancer" as alb {
+    component "HTTPS Routing"
+  }
+
+  node "ECS Cluster" {
+    node "Task Angular Frontend Service" {
+      component "Angular App"
+    }
+
+    node "Task Spring Boot" {
+      component "Module Auth"
+      component "Module Support"
+      component "Module Reservation"
+
+    }
+
+  }
+
+  database "Amazon RDS (MySQL)" as rds
+}
+
+cloud "External Services" {
+  component "Stripe"
+  component "WebRTC Server"
+  component "Email Provider"
+}
+
+client --> alb : HTTPS
+"HTTPS Routing" --> "Task Angular Frontend Service" : Target group
+"Task Angular Frontend Service" --> "Task Spring Boot"
+
+"Task Spring Boot" --> rds : JDBC (MySQL)
+
+"Task Spring Boot" --> "External Services" : HTTPS
+@enduml
