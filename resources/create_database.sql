@@ -48,7 +48,7 @@ CREATE TABLE profiles (
 
 );
 
-CREATE TABLE supports (
+CREATE TABLE support_infos (
     user_id BIGINT PRIMARY KEY,
     lastname VARCHAR(50) NOT NULL,
     firstname VARCHAR(50) NOT NULL,
