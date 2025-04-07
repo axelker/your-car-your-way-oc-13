@@ -6,7 +6,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ChatRequest {
+public class SupportMessageRequest {
+    @NotNull
+    private Long senderId;
     @NotNull
     private Long receiverId;
     @NotNull

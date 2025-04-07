@@ -1,20 +1,21 @@
 package com.openclassrooms.ycyw.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import com.openclassrooms.ycyw.dto.request.ChatRequest;
+import com.openclassrooms.ycyw.dto.request.SupportMessageRequest;
+import com.openclassrooms.ycyw.service.command.SupportMessageCommandService;
 
 @Controller
 public class ChatSupportController {
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    private final SupportMessageCommandService supportMessageCommandService;
+    public ChatSupportController(SupportMessageCommandService supportMessageCommandService) {
+        this.supportMessageCommandService = supportMessageCommandService;
+    }
 
     @MessageMapping("/chat.send")
-    public void sendMessage(@Payload ChatRequest message) {
-        messagingTemplate.convertAndSend("/topic/support/" + message.getReceiverId(), message);
+    public void handleMessage(@Payload SupportMessageRequest request) {
+        supportMessageCommandService.handleAndBroadcastMessage(request);
     }
 }
