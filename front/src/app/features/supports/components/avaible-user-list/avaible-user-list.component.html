@@ -1,0 +1,20 @@
+<div class="w-full max-w-sm mx-auto">
+    @if (users | async; as availableUsers;) {
+      <ul class="space-y-2">
+        @for (user of availableUsers; track user.id) {
+          <li
+            class="p-3 bg-white rounded-lg shadow hover:bg-gray-100 transition cursor-pointer flex items-center justify-between"
+            (click)="selectUser(user)"
+          >
+            <span class="font-medium">{{ user.email }}</span>
+            <span class="text-sm text-gray-400">Select</span>
+          </li>
+        }
+      </ul>
+    }
+  
+    @else {
+      <div class="text-center text-gray-500">Loading users...</div>
+    }
+  </div>
+  
