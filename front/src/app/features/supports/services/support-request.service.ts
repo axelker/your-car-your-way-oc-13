@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SupportRequestService {
-  private basePath: string = '/api/support/request';
+  private basePath: string = '/api/supports/request';
 
   constructor(private http: HttpClient) { }
 
