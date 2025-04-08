@@ -2,18 +2,20 @@
     <h2 class="text-2xl font-semibold text-center py-4 border-b border-gray-200 bg-gray-50">
       Support Chat
     </h2>
+      <!-- User selection area -->
+    <app-avaible-user-list (selectedUser)="selectUser($event)"></app-avaible-user-list>
   
     <div class="flex flex-1 overflow-hidden">
-      <!-- Sidebar : List of users -->
+      <!-- Sidebar : List of conversations -->
       <div class="w-1/3 border-r border-gray-200 bg-gray-50 overflow-y-auto">
-        <app-avaible-user-list (selectedUser)="selectUser($event)"></app-avaible-user-list>
+        <app-conversation-list (selectedConversation)="selectConversation($event)"></app-conversation-list>
       </div>
   
       <!-- Chat area -->
       <div class="w-2/3 relative flex flex-col">
-        @if (userSelectedToChat; as user) {
+        @if (conversationSelected; as conversation) {
           <div class="flex justify-between items-center px-4 py-3 bg-gray-100 border-b">
-            <span class="font-medium text-lg">{{ user.email }}</span>
+            <span class="font-medium text-lg">{{ conversation.name }}</span>
             <button
               class="text-sm text-red-500 hover:underline"
               (click)="closeChat()"
@@ -22,12 +24,12 @@
             </button>
           </div>
   
-          <app-chat class="flex-1 overflow-y-auto" [receiverId]="user.id"></app-chat>
+          <app-chat class="flex-1 overflow-y-auto" [conversationId]="conversation.id"></app-chat>
         }
   
         @else {
           <div class="flex items-center justify-center h-full text-gray-400 text-lg">
-            Select a user to start chatting
+            Select a conversation or a user to start chatting
           </div>
         }
       </div>
