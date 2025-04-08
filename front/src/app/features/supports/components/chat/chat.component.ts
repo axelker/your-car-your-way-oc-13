@@ -1,47 +1,50 @@
 import { Component, Input } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { FormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { UserInfo } from '../../../../core/interfaces/user-info';
 import { SessionService } from '../../../../core/services/session.service';
-import { SupportMessageRequest } from '../../interfaces/support-message-request';
-import { SupportMessage } from '../../interfaces/support-message';
+import { MessageRequest } from '../../interfaces/message-request';
+import { Conversation } from '../../interfaces/conversation';
+import { Message } from '../../interfaces/message';
+import { ConversationService } from '../../services/conversation.service';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule,NgFor],
+  imports: [FormsModule,NgFor,NgIf],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent {
-  @Input({required:true}) receiverId! : number;
-  messages: SupportMessage[] = [];
+  @Input({required:true}) conversationId! : number;
+  conversation!: Conversation;
   newMessage: string = '';
   userInfo! : UserInfo;
 
-  constructor(private chatService: ChatService,private sessionService: SessionService) {
+  constructor(private chatService: ChatService,
+    private conversationService: ConversationService,
+    private sessionService: SessionService) {
     this.userInfo = this.sessionService.getUser()!;
   }
 
   ngOnInit(): void {
-    this.chatService.listen(`/topic/support/${this.userInfo.id}`).subscribe((msg: SupportMessage) => {
-      this.messages.push(msg);
+    this.chatService.listen(`/topic/support/${this.conversationId}`).subscribe((msg: Message) => {
+      this.conversation.messages.push(msg);
     });
-    this.chatService.findAllMessagesByReceiverUserId(this.receiverId).subscribe((v) => this.messages = v);
+    this.conversationService.findConversation(this.conversationId).subscribe((c) => this.conversation = c);
   }
 
   send(): void {
     if (!this.newMessage.trim()) return;
 
-    const message : SupportMessageRequest = {
-      receiverId: this.receiverId,
+    const message : MessageRequest = {
+      conversationId: this.conversationId,
       content: this.newMessage,
       senderId: this.userInfo.id
     };
 
     this.chatService.sendMessage('/app/chat.send', message);
-    this.messages.push({ username: this.userInfo.email, content: this.newMessage });
     this.newMessage = '';
   }
 }

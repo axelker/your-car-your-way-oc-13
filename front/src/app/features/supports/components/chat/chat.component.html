@@ -1,8 +1,10 @@
 <div class=" mx-auto mt-2 border p-4 rounded shadow-md bg-white">  
     <div class="h-64 overflow-y-auto border p-2 rounded mb-4 bg-gray-50">
-      <div *ngFor="let msg of messages" class="mb-2">
-        <span class="font-semibold">{{ msg.username }}:</span>
-        <span>{{ msg.content }}</span>
+      <div *ngIf="conversation as conv">
+        <div *ngFor="let msg of conversation.messages" class="mb-2">
+          <span class="font-semibold">{{ msg.username }}:</span>
+          <span>{{ msg.content }}</span>
+        </div>
       </div>
     </div>
   
