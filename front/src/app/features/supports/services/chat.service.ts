@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { RxStomp } from '@stomp/rx-stomp';
 import { rxStompConfig } from '../config/rx-stomp.config';
-import { HttpClient } from '@angular/common/http';
-import { SupportMessage } from '../interfaces/support-message';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +9,7 @@ import { SupportMessage } from '../interfaces/support-message';
 export class ChatService {
   private rxStomp: RxStomp;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.rxStomp = new RxStomp();
     this.rxStomp.configure(rxStompConfig);
     this.rxStomp.activate();
@@ -29,10 +27,5 @@ export class ChatService {
       map(message => JSON.parse(message.body))
     );
   }
-
-  public findAllMessagesByReceiverUserId(receiverId:number): Observable<SupportMessage[]> {
-    return this.http.get<SupportMessage[]>(`api/support/messages/${receiverId}`)
-  }
-
  
 }
