@@ -1,4 +1,4 @@
-export interface SupportMessage {
+export interface Message {
     username:string;
     content:string;
     
