@@ -1,20 +1,18 @@
-<div class="w-full max-w-sm mx-auto">
-    @if (users | async; as availableUsers;) {
-      <ul class="space-y-2">
-        @for (user of availableUsers; track user.id) {
-          <li
-            class="p-3 bg-white rounded-lg shadow hover:bg-gray-100 transition cursor-pointer flex items-center justify-between"
-            (click)="selectUser(user)"
-          >
-            <span class="font-medium">{{ user.email }}</span>
-            <span class="text-sm text-gray-400">Select</span>
-          </li>
+<div class="mb-4 w-full max-w-xs">  
+  @if (users.length > 0) {
+    <form [formGroup]="form" class="mb-4">
+      <label for="user-select" class="block text-sm font-medium text-gray-700 mb-1">
+        Select a user
+      </label>
+    
+      <select id="user-select" formControlName="userId" class="w-full p-2 border rounded">
+        <option value="" disabled selected>Choose...</option>
+        @for (user of users; track user.id) {
+          <option [value]="user.id">{{ user.email }}</option>
         }
-      </ul>
-    }
-  
-    @else {
-      <div class="text-center text-gray-500">Loading users...</div>
-    }
-  </div>
-  
+      </select>
+    </form>    
+  } @else {
+    <div class="text-sm text-gray-500">Loading users...</div>
+  }
+</div>

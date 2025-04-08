@@ -1,24 +1,30 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SupportService } from '../../services/support.service';
-import { EMPTY, Observable } from 'rxjs';
 import { UserInfo } from '../../../../core/interfaces/user-info';
-import { AsyncPipe } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-avaible-user-list',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './avaible-user-list.component.html',
   styleUrl: './avaible-user-list.component.scss'
 })
-export class AvaibleUserListComponent {
+export class AvaibleUserListComponent implements OnInit {
   @Output() selectedUser: EventEmitter<UserInfo> = new EventEmitter<UserInfo>();
-  users:Observable<UserInfo[]> = EMPTY;
-  constructor(private supportService: SupportService){
-    this.users = this.supportService.findAvailableUsers();
-  }
+  users: UserInfo[] = [];
 
-  selectUser(user:UserInfo) {
-    this.selectedUser.emit(user);
+  form = new FormGroup({
+    userId: new FormControl('')
+  });
+
+  constructor(private supportService: SupportService){
+    this.supportService.findAvailableUsers().subscribe((v) => this.users = v);
+  }
+  ngOnInit(): void {
+    this.form.get('userId')?.valueChanges.subscribe(userId => {
+      const user = this.users.find(u => userId && u.id === +userId);
+      if (user) this.selectedUser.emit(user);
+    });
   }
 }
