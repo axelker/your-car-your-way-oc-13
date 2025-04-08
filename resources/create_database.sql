@@ -6,7 +6,7 @@ USE `ycyw-oc-project-13`;
 
 DROP TABLE IF EXISTS support_visio_logs;
 DROP TABLE IF EXISTS support_requests;
-DROP TABLE IF EXISTS support_messages;
+DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS rentals;
 DROP TABLE IF EXISTS agencies;
 DROP TABLE IF EXISTS vehicles;
@@ -98,17 +98,30 @@ CREATE TABLE rentals (
     FOREIGN KEY (profile_id) REFERENCES profiles(user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE conversations (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
 
-CREATE TABLE support_messages (
+CREATE TABLE conversation_participants (
+    user_id BIGINT NOT NULL,
+    conversation_id BIGINT NOT NULL,
+    joined_at TIMESTAMP NOT NULL,
+    PRIMARY KEY (user_id,conversation_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (conversation_id) REFERENCES conversations(id) ON DELETE CASCADE
+);
+
+CREATE TABLE messages (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     sender_id BIGINT NOT NULL,
-    receiver_id BIGINT NOT NULL,
+    conversation_id BIGINT NOT NULL,
     content VARCHAR(2500) NOT NULL,
     sent_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (conversation_id) REFERENCES conversations(id) ON DELETE CASCADE
 );
 
 CREATE TABLE support_requests (
@@ -146,5 +159,5 @@ VALUES ('Main Street', 12, 'France', 'Île-de-France', 75000);
 
 INSERT INTO profiles (user_id, address_id, lastname, firstname, birthdate)
 VALUES (1, 1, 'Doe', 'John', '1995-08-20');
-INSERT INTO supports (user_id, lastname, firstname)
+INSERT INTO support_infos (user_id, lastname, firstname)
 VALUES (2, 'Smith', 'Jane');
