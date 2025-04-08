@@ -4,7 +4,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 
-import com.openclassrooms.ycyw.dto.request.SupportMessageRequest;
+import com.openclassrooms.ycyw.dto.request.MessageRequest;
 import com.openclassrooms.ycyw.service.command.SupportMessageCommandService;
 
 @Controller
@@ -15,7 +15,7 @@ public class ChatSupportController {
     }
 
     @MessageMapping("/chat.send")
-    public void handleMessage(@Payload SupportMessageRequest request) {
-        supportMessageCommandService.handleAndBroadcastMessage(request);
+    public void handleMessage(@Payload MessageRequest request) {
+        supportMessageCommandService.handleAndBroadcastSupportMessage(request);
     }
 }
