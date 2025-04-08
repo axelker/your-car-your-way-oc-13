@@ -6,11 +6,11 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class SupportMessageRequest {
+public class MessageRequest {
     @NotNull
     private Long senderId;
     @NotNull
-    private Long receiverId;
+    private Long conversationId;
     @NotNull
     private String content;
 }

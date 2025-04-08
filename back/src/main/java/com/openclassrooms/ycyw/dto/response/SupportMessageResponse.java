@@ -8,5 +8,4 @@ import lombok.Getter;
 public class SupportMessageResponse {
     private String username;
     private String content;
-    
 }
