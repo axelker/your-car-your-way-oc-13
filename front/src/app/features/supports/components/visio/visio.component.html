@@ -1,0 +1,15 @@
+<div class="p-4">
+  
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <video #local autoplay playsinline muted class="w-full rounded shadow"></video>
+      <video #remote autoplay playsinline class="w-full rounded shadow border border-gray-300"></video>
+    </div>
+
+    <button
+      (click)="startCall()"
+      class="main-button"
+    >
+      Start Call
+    </button>
+  </div>
+  
