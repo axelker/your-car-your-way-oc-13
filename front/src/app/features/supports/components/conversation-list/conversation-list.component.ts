@@ -1,7 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ConversationService } from '../../services/conversation.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Conversation } from '../../interfaces/conversation';
-import { EMPTY, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -13,10 +11,9 @@ import { AsyncPipe } from '@angular/common';
 })
 export class ConversationListComponent {
   @Output() selectedConversation: EventEmitter<Conversation> = new EventEmitter<Conversation>();
-  conversations: Observable<Conversation[]> = EMPTY;
+  @Input() conversations:Conversation[] = [];
 
-  constructor(private conversationService: ConversationService){
-    this.conversations = this.conversationService.findAllConversation();
+  constructor(){
   }
 
   selectConversation(Conversation:Conversation) {

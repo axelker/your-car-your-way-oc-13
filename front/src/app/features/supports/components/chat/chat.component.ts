@@ -3,11 +3,9 @@ import { ChatService } from '../../services/chat.service';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { UserInfo } from '../../../../core/interfaces/user-info';
-import { SessionService } from '../../../../core/services/session.service';
 import { MessageRequest } from '../../interfaces/message-request';
 import { Conversation } from '../../interfaces/conversation';
 import { Message } from '../../interfaces/message';
-import { ConversationService } from '../../services/conversation.service';
 
 @Component({
   selector: 'app-chat',
@@ -17,29 +15,23 @@ import { ConversationService } from '../../services/conversation.service';
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent {
-  @Input({required:true}) conversationId! : number;
-  conversation!: Conversation;
+  @Input({required:true}) userInfo! : UserInfo;
+  @Input({required:true}) conversation!: Conversation;
   newMessage: string = '';
-  userInfo! : UserInfo;
-
-  constructor(private chatService: ChatService,
-    private conversationService: ConversationService,
-    private sessionService: SessionService) {
-    this.userInfo = this.sessionService.getUser()!;
-  }
+ 
+  constructor(private chatService: ChatService) {}
 
   ngOnInit(): void {
-    this.chatService.listen(`/topic/support/${this.conversationId}`).subscribe((msg: Message) => {
+    this.chatService.listen(`/topic/support/${this.conversation.id}`).subscribe((msg: Message) => {
       this.conversation.messages.push(msg);
     });
-    this.conversationService.findConversation(this.conversationId).subscribe((c) => this.conversation = c);
   }
 
   send(): void {
     if (!this.newMessage.trim()) return;
 
     const message : MessageRequest = {
-      conversationId: this.conversationId,
+      conversationId: this.conversation.id,
       content: this.newMessage,
       senderId: this.userInfo.id
     };
