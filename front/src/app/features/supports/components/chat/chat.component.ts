@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
@@ -14,7 +14,7 @@ import { Message } from '../../interfaces/message';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit,OnDestroy {
   @Input({required:true}) userInfo! : UserInfo;
   @Input({required:true}) conversation!: Conversation;
   newMessage: string = '';
@@ -25,6 +25,10 @@ export class ChatComponent {
     this.chatService.listen(`/topic/support/${this.conversation.id}`).subscribe((msg: Message) => {
       this.conversation.messages.push(msg);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.chatService.cleanUp();
   }
 
   send(): void {
