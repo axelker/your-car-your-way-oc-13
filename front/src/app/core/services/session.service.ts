@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
 import { UserInfo } from '../interfaces/user-info';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  private USER_SESSION_KEY: string = "user";
+  private userSubject: BehaviorSubject<UserInfo | null> = new BehaviorSubject<UserInfo | null>(null);
 
   constructor() { }
 
   public getUser() : UserInfo | null {
-    const user : string | null = localStorage.getItem(this.USER_SESSION_KEY);
-    return user === null ? null : JSON.parse(user);
+    return this.userSubject.getValue();
   }
   get isLogged(): boolean {
     return this.getUser() !== null;
   }
   public logUser(user:UserInfo):void {
-    localStorage.setItem(this.USER_SESSION_KEY,JSON.stringify(user));
+    this.userSubject.next(user);
   }
 
   public logOutUser():void {
-    localStorage.removeItem(this.USER_SESSION_KEY);
+    this.userSubject.next(null);
   }
 }

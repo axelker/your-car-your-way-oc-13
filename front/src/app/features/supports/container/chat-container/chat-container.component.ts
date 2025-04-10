@@ -5,9 +5,8 @@ import { ChatComponent } from '../../components/chat/chat.component';
 import { ConversationListComponent } from '../../components/conversation-list/conversation-list.component';
 import { Conversation } from '../../interfaces/conversation';
 import { ConversationService } from '../../services/conversation.service';
-import { AuthService } from '../../../../core/services/auth.service';
-import { Observable, EMPTY } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { SessionService } from '../../../../core/services/session.service';
 
 @Component({
   selector: 'app-chat-container',
@@ -23,10 +22,10 @@ export class ChatContainerComponent {
 
   constructor(
     private conversationService: ConversationService,
-    private authService: AuthService
+    private sessionService: SessionService
   ) {
     this.conversationService.findAllConversation().subscribe(this.conversations.set);
-    this.authService.getUserInfo().subscribe(this.currentUserInfo.set);
+    this.currentUserInfo.set(this.sessionService.getUser());
   }
 
   selectUser(user: UserInfo) {
