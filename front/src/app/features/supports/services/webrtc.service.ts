@@ -14,7 +14,8 @@ export class WebrtcService {
   private rxStomp = new RxStomp();
   private pendingIceCandidates: RTCIceCandidate[] = [];
 
-  public incomingOffer$: Subject<VisioSignalMessage> = new Subject();
+  public incomingCall$: Subject<VisioSignalMessage> = new Subject();
+  public answeringCall$: Subject<VisioSignalMessage> = new Subject();
 
 
   constructor(private sessionService: SessionService) {
@@ -112,37 +113,48 @@ export class WebrtcService {
       senderId: signal.receiverId
     });
   }
+  
 
   async handleSignalMessage(msg: IMessage): Promise<void> {
     const signal: VisioSignalMessage = JSON.parse(msg.body);
     switch (signal.type) {
       case SignalingMessageTypeEnum.OFFER:
-        for (const candidate of this.pendingIceCandidates) {
-          await this.peer.addIceCandidate(candidate);
-        }
-        this.pendingIceCandidates = [];
-        this.incomingOffer$.next(signal);
+        await this.setOffer(signal)
         break;
 
       case SignalingMessageTypeEnum.ANSWER:
-        await this.peer.setRemoteDescription(new RTCSessionDescription(JSON.parse(signal.payload)));
+        await this.setAnswer(signal);
         break;
 
       case SignalingMessageTypeEnum.ICE:
-        // Need to check if peer is already initialized.
         let candidate: RTCIceCandidate = new RTCIceCandidate(JSON.parse(signal.payload));
-        if (this.peer) {
-          await this.peer.addIceCandidate(candidate);
-        } else {
+        if (!this.peer) {
           this.pendingIceCandidates.push(candidate);
+          return;
         }
+        await this.peer.addIceCandidate(candidate);
         break;
     }
   }
 
   listenToSignals(userId: number): void {
-    this.rxStomp.watch(`/topic/visio/${userId}`).subscribe((msg: IMessage) => this.handleSignalMessage(msg));
+    this.rxStomp.watch(`/topic/visio/${userId}`).subscribe((m) => this.handleSignalMessage(m));
   }
+
+  async setOffer(signal: VisioSignalMessage) {
+    // Add pending ice candidate and clean the array
+    for (const candidate of this.pendingIceCandidates) {
+      await this.peer.addIceCandidate(candidate);
+    }
+    this.pendingIceCandidates = [];
+    this.incomingCall$.next(signal);
+  }
+
+  async setAnswer(signal: VisioSignalMessage) {
+    await this.peer.setRemoteDescription(new RTCSessionDescription(JSON.parse(signal.payload)));
+    this.answeringCall$.next(signal);
+  }
+
 
 
   private sendSignal(signal: VisioSignalMessage): void {
