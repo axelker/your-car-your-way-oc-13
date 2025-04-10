@@ -12,6 +12,7 @@ export class WebrtcService {
   private localStream!: MediaStream;
   private remoteStream!: MediaStream;
   private rxStomp = new RxStomp();
+  private pendingIceCandidates: RTCIceCandidate[] = [];
 
   public incomingOffer$: Subject<VisioSignalMessage> = new Subject();
 
@@ -41,6 +42,7 @@ export class WebrtcService {
     // Close WebRTC connexion
     if (this.peer) {
       this.peer.close();
+      this.peer = undefined as any;
     }
   }
 
@@ -115,6 +117,10 @@ export class WebrtcService {
     const signal: VisioSignalMessage = JSON.parse(msg.body);
     switch (signal.type) {
       case SignalingMessageTypeEnum.OFFER:
+        for (const candidate of this.pendingIceCandidates) {
+          await this.peer.addIceCandidate(candidate);
+        }
+        this.pendingIceCandidates = [];
         this.incomingOffer$.next(signal);
         break;
 
@@ -123,7 +129,13 @@ export class WebrtcService {
         break;
 
       case SignalingMessageTypeEnum.ICE:
-        await this.peer.addIceCandidate(new RTCIceCandidate(JSON.parse(signal.payload)));
+        // Need to check if peer is already initialized.
+        let candidate: RTCIceCandidate = new RTCIceCandidate(JSON.parse(signal.payload));
+        if (this.peer) {
+          await this.peer.addIceCandidate(candidate);
+        } else {
+          this.pendingIceCandidates.push(candidate);
+        }
         break;
     }
   }

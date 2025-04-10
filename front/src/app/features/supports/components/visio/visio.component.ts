@@ -74,7 +74,7 @@ export class VisioComponent implements OnInit,OnDestroy {
     }
     // TODO : need to add function for base code (init peer, getlocalstream and error toastr) //
     async acceptCall() {
-      if (!this.incomingCall) return;
+      if (!this.incomingCall) return; // use boolean
       
       await this.webrtc.initPeer(this.incomingCall.senderId, (remoteStream) => {
         if (this.remote?.nativeElement) {
