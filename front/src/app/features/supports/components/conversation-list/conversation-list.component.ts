@@ -16,7 +16,7 @@ export class ConversationListComponent {
   constructor(){
   }
 
-  selectConversation(Conversation:Conversation) {
-      this.selectedConversation.emit(Conversation);
+  selectConversation(conversation:Conversation) {
+      this.selectedConversation.emit(conversation);
   }
 }

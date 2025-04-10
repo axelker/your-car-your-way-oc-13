@@ -35,7 +35,7 @@ export class ChatContainerComponent {
   }
 
   selectConversation(conversation: Conversation) {
-    this.conversationSelected.set(conversation);
+    this.conversationService.findConversation(conversation.id).subscribe(this.conversationSelected.set)
   }
 
   closeChat() {
