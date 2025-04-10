@@ -18,12 +18,29 @@ export class WebrtcService {
 
   constructor(private sessionService: SessionService) {
     this.rxStomp.configure(rxStompConfig);
+  }
+
+  init(){
     this.rxStomp.activate();
   }
 
   cleanUp() : void {
     if (this.rxStomp.connected()) {
       this.rxStomp.deactivate();
+    }
+    // Stop all local tracks (caméra, micro)
+    if (this.localStream) {
+      this.localStream.getTracks().forEach(track => track.stop());
+    }
+  
+    // Stop all remote tracks
+    if (this.remoteStream) {
+      this.remoteStream.getTracks().forEach(track => track.stop());
+    }
+  
+    // Close WebRTC connexion
+    if (this.peer) {
+      this.peer.close();
     }
   }
 
@@ -115,25 +132,6 @@ export class WebrtcService {
     this.rxStomp.watch(`/topic/visio/${userId}`).subscribe((msg: IMessage) => this.handleSignalMessage(msg));
   }
 
-  close(): void {
-    // Stop all local tracks (caméra, micro)
-    if (this.localStream) {
-      this.localStream.getTracks().forEach(track => track.stop());
-      this.localStream = undefined as any;
-    }
-  
-    // Stop all remote tracks
-    if (this.remoteStream) {
-      this.remoteStream.getTracks().forEach(track => track.stop());
-      this.remoteStream = undefined as any;
-    }
-  
-    // Stock WebRTC connexion
-    if (this.peer) {
-      this.peer.close();
-      this.peer = undefined as any;
-    }
-  }
 
   private sendSignal(signal: VisioSignalMessage): void {
     this.rxStomp.publish({ destination: '/app/visio.send', body: JSON.stringify(signal) });

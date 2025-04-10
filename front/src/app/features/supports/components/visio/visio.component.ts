@@ -28,6 +28,7 @@ export class VisioComponent implements OnInit,OnDestroy {
               private toastr: ToastrService) { }
   
     ngOnInit(): void {
+      this.webrtc.init();
       const user = this.sessionService.getUser()!;
       this.webrtc.incomingOffer$.subscribe((signal) => {
         this.incomingCall = signal;
@@ -91,7 +92,7 @@ export class VisioComponent implements OnInit,OnDestroy {
     }
 
     exitCall() {
-      this.webrtc.close();
+      this.webrtc.cleanUp();
     }
     
 }

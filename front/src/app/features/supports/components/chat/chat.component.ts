@@ -22,6 +22,7 @@ export class ChatComponent implements OnInit,OnDestroy {
   constructor(private chatService: ChatService) {}
 
   ngOnInit(): void {
+    this.chatService.init();
     this.chatService.listen(`/topic/support/${this.conversation.id}`).subscribe((msg: Message) => {
       this.conversation.messages.push(msg);
     });

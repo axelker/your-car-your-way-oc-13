@@ -8,11 +8,13 @@ import { Message } from '../interfaces/message';
   providedIn: 'root'
 })
 export class ChatService {
-  private rxStomp: RxStomp;
+  private rxStomp: RxStomp = new RxStomp();
 
   constructor() {
-    this.rxStomp = new RxStomp();
     this.rxStomp.configure(rxStompConfig);
+  }
+
+  init() {
     this.rxStomp.activate();
   }
 
