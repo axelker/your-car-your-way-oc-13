@@ -5,11 +5,27 @@
       <video #remote autoplay playsinline class="w-full rounded shadow border border-gray-300"></video>
     </div>
 
-    <button
+    <div class="flex justify-between p-5">
+      <button
       (click)="startCall()"
       class="main-button"
-    >
-      Start Call
-    </button>
+      [disabled]="incomingCall"
+      >
+        Start Call
+      </button>
+      <button (click)="exitCall()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        Exit call
+      </button>
+      @if(incomingCall) {
+        <div>
+          <p class="text-lg font-semibold text-gray-700">Incoming call...</p>
+          <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" (click)="acceptCall()">
+            Accept Call
+          </button>
+        </div>
+      }
+    </div>
+
+
   </div>
   

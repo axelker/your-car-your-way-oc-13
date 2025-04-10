@@ -1,0 +1,27 @@
+
+<!-- User selection area -->
+<app-avaible-user-list #avaibleUser (selectedUser)="selectUser($event)"></app-avaible-user-list>
+
+<!-- visio area -->
+<div class="relative flex flex-col">
+@if (userSelected(); as user) {
+    <div class="flex justify-between items-center px-4 py-3 bg-gray-100 border-b">
+    <span class="font-medium text-lg">{{ user.email }}</span>
+    <button
+        class="text-sm text-red-500 hover:underline"
+        (click)="closeVisio()"
+    >
+        Close
+    </button>
+    </div>
+
+    <app-visio #visio class="flex-1 overflow-y-auto" [receiverId]="user.id"></app-visio>
+}
+
+@else {
+    <div class="flex items-center justify-center h-full text-gray-400 text-lg">
+    Select a user to start visio
+    </div>
+}
+</div>
+  
