@@ -1,0 +1,28 @@
+@startuml
+participant "Client A" as A
+participant "Signaling Server" as S
+participant "Client B" as B
+database "STUN Server" as STUN
+
+== Gathering ICE Candidates ==
+A -> STUN : Get public IP (ICE Candidate)
+B -> STUN : Get public IP (ICE Candidate)
+
+== Signaling via WebSocket ==
+A -> S : Send SDP Offer
+S -> B : Forward SDP Offer
+
+B -> S : Send SDP Answer
+S -> A : Forward SDP Answer
+
+== Exchange ICE Candidates ==
+A -> S : Send ICE Candidate
+S -> B : Forward ICE Candidate
+
+B -> S : Send ICE Candidate
+S -> A : Forward ICE Candidate
+
+== P2P Connection ==
+A -> B : Establish Direct UDP Connection
+
+@enduml

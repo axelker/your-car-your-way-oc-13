@@ -1,0 +1,112 @@
+<mxfile host="65bd71144e">
+    <diagram id="1VkOR_XRadX33QmukeP3" name="Page-1">
+        <mxGraphModel dx="647" dy="272" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="" style="image;html=1;image=img/lib/clip_art/computers/Network_128x128.png" vertex="1" parent="1">
+                    <mxGeometry x="120" y="320" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="image;html=1;image=img/lib/clip_art/computers/Network_128x128.png" vertex="1" parent="1">
+                    <mxGeometry x="630" y="330" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="217.5" y="350" as="sourcePoint"/>
+                        <mxPoint x="617.5" y="350" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="Peer to peer(P2P) connexion (UDP)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="370" width="210" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="endArrow=none;html=1;exitX=0.95;exitY=0.613;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3" target="4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="460" y="380" as="sourcePoint"/>
+                        <mxPoint x="510" y="330" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="347.5" y="30" width="115" height="123" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="" style="image;html=1;image=img/lib/clip_art/computers/Server_Tower_128x128.png" vertex="1" parent="11">
+                    <mxGeometry x="15" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Signaling Server&lt;div&gt;(Using websocket)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="11">
+                    <mxGeometry x="-5" y="83" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="STUN/TURN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="70" y="198" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="180" y="318" as="sourcePoint"/>
+                        <mxPoint x="180" y="258" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="15" value="" style="endArrow=classic;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="90" y="258" as="sourcePoint"/>
+                        <mxPoint x="90" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="IceCanidate&amp;nbsp;&lt;div&gt;with public&amp;nbsp;&lt;/div&gt;&lt;div&gt;IP,port...&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="258" width="90" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="&lt;div style=&quot;text-wrap-mode: nowrap;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;1. Chaque peer contacte son serveur STUN → obtient ses ICE candidates (IP publique, port.. permet d&#39;identifier le peer)&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-wrap-mode: nowrap;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;2. Les ICE et les SDPs sont envoyés à l’autre pair via le serveur de signaling&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-wrap-mode: nowrap;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;3. Si une route est trouvée, une connexion P2P (UDP) est établie&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="460" width="800" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Peer 1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="410" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="Peer 2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="650" y="420" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="STUN/TURN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="198" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="730" y="318" as="sourcePoint"/>
+                        <mxPoint x="730" y="258" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="28" value="" style="endArrow=classic;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="640" y="258" as="sourcePoint"/>
+                        <mxPoint x="640" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="29" value="IceCanidate&amp;nbsp;&lt;div&gt;with public&amp;nbsp;&lt;/div&gt;&lt;div&gt;IP,port..&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="258" width="90" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="200" y="330" as="sourcePoint"/>
+                        <mxPoint x="340" y="160" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="31" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="626" y="330" as="sourcePoint"/>
+                        <mxPoint x="470" y="160" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="32" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="360" y="160" as="sourcePoint"/>
+                        <mxPoint x="220" y="340" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="34" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="456" y="170" as="sourcePoint"/>
+                        <mxPoint x="606" y="330" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="35" value="SPD + icecandidate&lt;div&gt;(offer &amp;amp; answer)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="198" width="130" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
