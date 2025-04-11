@@ -4,9 +4,9 @@ import { SessionService } from "../../../core/services/session.service";
 import { rxStompConfig } from "../config/rx-stomp.config";
 import { VisioSignalMessage } from "../interfaces/visio-signal-message";
 import { SignalingMessageTypeEnum } from "../enums/signaling-message-type.enum";
-import { Subject } from "rxjs";
+import { from, Subject } from "rxjs";
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class WebrtcService {
   private peer!: RTCPeerConnection; // todo: for support multiple peers use an map with the user id for the key.
   private localStream!: MediaStream;
@@ -41,10 +41,10 @@ export class WebrtcService {
     }
   
     // Close WebRTC connexion
-    if (this.peer) {
+    if (this.peer && (this.peer.connectionState === 'connected' || this.peer.connectionState === 'failed')) {
       this.peer.close();
-      this.peer = undefined as any;
     }
+
   }
 
   async initPeer(receiverId: number, onRemoteStream: (stream: MediaStream) => void): Promise<void> {
@@ -128,9 +128,9 @@ export class WebrtcService {
 
       case SignalingMessageTypeEnum.ICE:
         let candidate: RTCIceCandidate = new RTCIceCandidate(JSON.parse(signal.payload));
-        if (!this.peer) {
+        if (this.peerIsNotReady()) {
           this.pendingIceCandidates.push(candidate);
-          return;
+          break;
         }
         await this.peer.addIceCandidate(candidate);
         break;
@@ -138,7 +138,11 @@ export class WebrtcService {
   }
 
   listenToSignals(userId: number): void {
-    this.rxStomp.watch(`/topic/visio/${userId}`).subscribe((m) => this.handleSignalMessage(m));
+    this.rxStomp.watch(`/topic/visio/${userId}`).subscribe((msg) => {
+      from(this.handleSignalMessage(msg)).subscribe({
+        error: (err) => console.error('Erreur de signal WebRTC:', err)
+      });
+    });
   }
 
   async setOffer(signal: VisioSignalMessage) {
@@ -156,6 +160,9 @@ export class WebrtcService {
   }
 
 
+  peerIsNotReady() : boolean {
+    return !this.peer || this.peer.connectionState ==='closed';
+  }
 
   private sendSignal(signal: VisioSignalMessage): void {
     this.rxStomp.publish({ destination: '/app/visio.send', body: JSON.stringify(signal) });
