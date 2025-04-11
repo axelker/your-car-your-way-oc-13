@@ -8,6 +8,7 @@ import { VisioSignalMessage } from '../../interfaces/visio-signal-message';
   selector: 'app-visio',
   standalone: true,
   imports: [],
+  providers: [WebrtcService],
   templateUrl: './visio.component.html',
   styleUrl: './visio.component.scss'
 })
@@ -22,6 +23,7 @@ export class VisioComponent implements OnInit,OnDestroy {
 
   incomingCall: VisioSignalMessage | null = null;
   isInCall: boolean = false;
+  isPendingAnswering: boolean = false;
 
 
   constructor(private webrtc: WebrtcService,
@@ -35,6 +37,8 @@ export class VisioComponent implements OnInit,OnDestroy {
         this.incomingCall = signal;
       });
       this.webrtc.answeringCall$.subscribe(() => {
+        this.isPendingAnswering = false;
+        this.isInCall = true;
         this.toastr.success("L'utilisateur a rejoints l'appel.");
       }
       );
@@ -60,7 +64,7 @@ export class VisioComponent implements OnInit,OnDestroy {
         }
     
         await this.webrtc.createOffer(this.receiverId);
-        this.isInCall = true;
+        this.isPendingAnswering = true;
     
       } catch (error: any) {  
         this.handleCallError(error);
@@ -107,8 +111,12 @@ export class VisioComponent implements OnInit,OnDestroy {
     }
 
     exitCall() {
-      this.isInCall = false;
-      this.webrtc.cleanUp();
+          this.isInCall = false;
+          this.webrtc.cleanUp();
+    }
+
+    disabledStartCall() :boolean {
+      return this.isPendingAnswering || this.isInCall || !!this.incomingCall;
     }
     
     
