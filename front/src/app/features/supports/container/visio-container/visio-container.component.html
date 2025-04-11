@@ -15,7 +15,7 @@
     </button>
     </div>
 
-    <app-visio #visio class="flex-1 overflow-y-auto" [receiverId]="user.id"></app-visio>
+    <app-visio #visio class="flex-1 overflow-y-auto" (endVisio)="closeVisio()" [receiverId]="user.id"></app-visio>
 }
 
 @else {

@@ -14,8 +14,6 @@ import { VisioComponent } from '../../components/visio/visio.component';
 export class VisioContainerComponent {
   @ViewChild('avaibleUser')
   avaibaleUserList!: AvaibleUserListComponent;
-  @ViewChild('visio')
-  visio!: VisioComponent;
   currentUserInfo = signal<UserInfo | null>(null);
   userSelected = signal<UserInfo | null>(null);
 
@@ -31,7 +29,6 @@ export class VisioContainerComponent {
 
 
   closeVisio() {
-    this.visio.exitCall();
     this.userSelected.set(null);
     this.avaibaleUserList.form.patchValue({userId:''});
   }

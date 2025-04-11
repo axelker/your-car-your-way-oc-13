@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { WebrtcService } from '../../services/webrtc.service';
 import { SessionService } from '../../../../core/services/session.service';
 import { ToastrService } from 'ngx-toastr';
@@ -20,6 +20,7 @@ export class VisioComponent implements OnInit,OnDestroy {
   @ViewChild('local') local!: ElementRef<HTMLVideoElement>;
   @ViewChild('remote') remote!: ElementRef<HTMLVideoElement>;
   @Input({required:true}) receiverId!: number;
+  @Output() endVisio: EventEmitter<void> = new EventEmitter();
 
   incomingCall: VisioSignalMessage | null = null;
   isInCall: boolean = false;
@@ -111,8 +112,8 @@ export class VisioComponent implements OnInit,OnDestroy {
     }
 
     exitCall() {
-          this.isInCall = false;
-          this.webrtc.cleanUp();
+      this.webrtc.cleanUp();
+      this.endVisio.emit();
     }
 
     disabledStartCall() :boolean {
