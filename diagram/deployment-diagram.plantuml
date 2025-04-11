@@ -28,7 +28,6 @@ cloud "AWS Cloud" {
 
 cloud "External Services" {
   component "Stripe"
-  component "WebRTC Server"
   component "Email Provider"
 }
 

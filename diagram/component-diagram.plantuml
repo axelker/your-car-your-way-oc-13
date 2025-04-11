@@ -21,10 +21,8 @@ package "Persistence" {
 
 package "External Services" {
   [Stripe Payment Gateway]
-  [WebRTC Signaling Server]
   [Email Notification Service]
   [Reservation Module] --> [Stripe Payment Gateway]
-  [Support Module] --> [WebRTC Signaling Server]
   [Auth Module] --> [Email Notification Service]
 }
 
