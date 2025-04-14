@@ -41,7 +41,7 @@ public class ConversationCommandService {
         }
 
         // Create conversation
-        ConversationEntity conversation = ConversationEntity.builder().name("Conversation").build();
+        ConversationEntity conversation = ConversationEntity.builder().name("Conversation").messages(List.of()).build();
         conversation = conversationRepository.save(conversation);
 
         // Add participants
